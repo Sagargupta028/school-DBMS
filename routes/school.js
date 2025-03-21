@@ -20,42 +20,7 @@ router.post('/addSchool', async (req, res) => {
     }
 });
 
-// (B) Add Multiple Schools API
-router.post('/addSchools', async (req, res) => {
-    const schools = req.body;
 
-    if (!Array.isArray(schools) || schools.length === 0) {
-        return res.status(400).json({ error: "Invalid data format" });
-    }
-
-    try {
-        const conn = await db.promise();
-        const values = schools.map(s => [s.name, s.address, s.latitude, s.longitude]);
-        const sql = "INSERT INTO schools (name, address, latitude, longitude) VALUES ?";
-        const [result] = await conn.query(sql, [values]);
-        res.json({ message: "Schools added successfully", inserted: result.affectedRows });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-});
-
-// (C) Get School by ID API
-router.get('/getSchool/:id', async (req, res) => {
-    const schoolId = req.params.id;
-
-    try {
-        const conn = await db.promise();
-        const [results] = await conn.query("SELECT * FROM schools WHERE id = ?", [schoolId]);
-
-        if (results.length === 0) {
-            return res.status(404).json({ error: "School not found" });
-        }
-
-        res.json(results[0]);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-});
 
 // (D) Function to calculate distance using Haversine formula
 const getDistance = (lat1, lon1, lat2, lon2) => {
@@ -91,5 +56,6 @@ router.get('/listSchools', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+
 
 module.exports = router;
