@@ -70,7 +70,6 @@ const getDistance = (lat1, lon1, lat2, lon2) => {
     return R * c;
 };
 
-// (E) List Schools API
 router.get('/listSchools', async (req, res) => {
     const { latitude, longitude } = req.query;
 
