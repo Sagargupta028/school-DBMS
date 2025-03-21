@@ -13,6 +13,8 @@ const db = mysql.createConnection({
     queueLimit: 0
 });
 
+
+
 // Connect to MySQL
 db.connect(err => {
     if (err) {
